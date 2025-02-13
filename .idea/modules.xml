@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/Ciclos.iml" filepath="$PROJECT_DIR$/.idea/Ciclos.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/pattern2.iml" filepath="$PROJECT_DIR$/.idea/pattern2.iml" />
+>>>>>>> f9836f8 (🚀 Subiendo el proyecto inicial a GitHub)
     </modules>
   </component>
 </project>
