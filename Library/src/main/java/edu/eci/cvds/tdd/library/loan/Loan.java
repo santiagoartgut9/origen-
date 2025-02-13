@@ -3,14 +3,14 @@ package edu.eci.cvds.tdd.library.loan;
 import edu.eci.cvds.tdd.library.book.Book;
 import edu.eci.cvds.tdd.library.user.User;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Loan {
     private Book book;
     private User user;
-    private LocalDateTime loanDate;
+    private LocalDate loanDate;
     private LoanStatus status;
-    private LocalDateTime returnDate;
+    private LocalDate returnDate;
 
     public Book getBook() {
         return book;
@@ -28,11 +28,11 @@ public class Loan {
         this.user = user;
     }
 
-    public LocalDateTime getLoanDate() {
+    public LocalDate getLoanDate() {
         return loanDate;
     }
 
-    public void setLoanDate(LocalDateTime loanDate) {
+    public void setLoanDate(LocalDate loanDate) {
         this.loanDate = loanDate;
     }
 
@@ -44,11 +44,11 @@ public class Loan {
         this.status = status;
     }
 
-    public LocalDateTime getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(LocalDateTime returnDate) {
+    public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
 }

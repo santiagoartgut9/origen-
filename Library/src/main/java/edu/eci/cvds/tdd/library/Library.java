@@ -2,8 +2,10 @@ package edu.eci.cvds.tdd.library;
 
 import edu.eci.cvds.tdd.library.book.Book;
 import edu.eci.cvds.tdd.library.loan.Loan;
+import edu.eci.cvds.tdd.library.loan.LoanStatus;
 import edu.eci.cvds.tdd.library.user.User;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,8 +37,18 @@ public class Library {
      * @return true if the book was stored false otherwise.
      */
     public boolean addBook(Book book) {
-        //TODO Implement the logic to add a new book into the map.
-        return false;
+        try{
+            for (Book b : books.keySet()) {
+                if (b.equals(book)) {
+                    books.put(b, books.get(b) + 1);
+                    return true;
+                }
+            }
+            books.put(book, 1);
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -53,8 +65,37 @@ public class Library {
      * @return The new created loan.
      */
     public Loan loanABook(String userId, String isbn) {
-        //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
+        //validate that the book is available and exist
+        for (Book b : books.keySet()) {
+            if (b.getIsbn().equals(isbn) && books.get(b) > 0) {
+                //validate that the user exist
+                for (User u : users) {
+                    if (u.getId().equals(userId)) {
+                        //validate that the user does not have a loan for the same book
+                        for (Loan l : loans) {
+                            if (l.getUser().equals(u) && l.getBook().equals(b) && l.getStatus().equals(LoanStatus.ACTIVE)) {
+                                return null;
+                            }
+                        }
+                        books.put(b, books.get(b) - 1);
+                        Loan loan = createLoan(u, b);
+                        return loan;
+                    }
+                }
+            }
+        }
         return null;
+    }
+
+    private Loan createLoan(User u, Book b) {
+        Loan loan = new Loan();
+        loan.setBook(b);
+        loan.setUser(u);
+        loan.setLoanDate(LocalDate.now());
+        loan.setStatus(LoanStatus.ACTIVE);
+        loans.add(loan);
+        return loan;
+
     }
 
     /**
@@ -67,7 +108,15 @@ public class Library {
      * @return the loan with the RETURNED status.
      */
     public Loan returnLoan(Loan loan) {
-        //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
+        //validate that the loan exist
+        for (Loan l : loans) {
+            if (l.equals(loan)) {
+                books.put(l.getBook(), books.get(l.getBook()) + 1);
+                l.setStatus(LoanStatus.RETURNED);
+                l.setReturnDate(LocalDate.now());
+                return l;
+            }
+        }
         return null;
     }
 
@@ -75,4 +124,24 @@ public class Library {
         return users.add(user);
     }
 
+    public Map<Book, Integer> getBooks() {
+        return books;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public List<Loan> getLoans() {
+        return loans;
+    }
+
+    public Loan getLoan(User user, Book book) {
+        for (Loan l : loans) {
+            if (l.getUser().equals(user) && l.getBook().equals(book)) {
+                return l;
+            }
+        }
+        return null;
+    }
 }
